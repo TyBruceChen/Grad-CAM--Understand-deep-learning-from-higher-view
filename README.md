@@ -4,3 +4,6 @@ Gradient Class Activation Map: Visualize the model's prediction and can help you
 Thanks to Selvaraju's research: [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391)
 
 This repository realizes Grad-CAM with Pytorch on Pytorch based models (pretrained models are from timm)
+
+Example (from restnet10):
+![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)

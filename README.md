@@ -7,5 +7,6 @@ This repository realizes Grad-CAM with Pytorch on Pytorch based models (pretrain
 
 Required Library: torch, matplotlib, torchvision, PIL, numpy
 
-Example (from restnet10):
+Example (from restnet10) (The color from blue -> green -> red represents the focus of model on the picture low -> median -> high):
 ![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)
+

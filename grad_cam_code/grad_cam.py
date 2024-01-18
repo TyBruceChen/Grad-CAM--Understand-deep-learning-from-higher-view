@@ -26,6 +26,8 @@ class GradCAM:
     self.layer_idx = -layer_idx
     self.img_path = img_path
     self.input_shape = input_shape
+
+  
   def __call__(self):
     model = self.model
 
@@ -72,9 +74,13 @@ class GradCAM:
       heatmap[:,:,i] *= pooled_grads[i]
     heatmap = np.mean(heatmap, axis = -1)
     self.heatmap = np.uint8(255*np.maximum(heatmap,0)/np.max(heatmap))
+
+  
   def origin_cam_visualization(self):
     plt.matshow(self.heatmap)
     plt.show
+
+  
   def imposing_visualization(self):
     alpha = 0.6 #how much CAM will overlap on original image
     jet = cm.get_cmap('jet')

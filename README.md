@@ -10,7 +10,7 @@ Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 Example (on ResNet10) (The color from blue -> green -> red represents the focus of model on the picture low -> median -> high):
 ![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)
 
-How to use it:
+## How to use it:
 ```
 import grad_cam
 
@@ -21,7 +21,7 @@ gradcam.imposing_visualization()  #generate the overlaped graph and cam
 ```
 
 
-Explanation (on ResNet34):
+## Explanation (on ResNet34):
 
 Let's see the Grad-CAM view of the last layer (layer_idx=2) before classifier first:
 ![resnet34-2](graphs/resnet34-2.png)
@@ -82,3 +82,6 @@ The merge of original image and CAM (heatmap)
 From the experiment, we can conclude two things:
 1. We can see that the resnet34 at layer1 already has the ability to extract the key feature from the experimented image (the red, green and yellow points plot the outline of the dog). If we concatenate the first half of the model directly with classifier (linear layer) to form a new model and train them with dog images like our tested one, it should have the same predicted category.
 2. Comparing visual results under layer_idx=5 and layer_idx=2, we can see that, as the model goes deeper, the features that identify the category become more abstract.
+
+## Future works:
+Currently, this code only works for activations that shape (B,H,W,C), where H,W should be greater than 1, which means for activation from MobileNet, EffcientNet, etc, it cannot work on their final layers and for ViT models which activations shape (B, sequence + 1 (class_token), patches**2), the solution has not be published yet.

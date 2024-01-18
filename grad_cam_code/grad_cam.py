@@ -73,7 +73,9 @@ class GradCAM:
     for  i in range(d_act.shape[-1]):
       heatmap[:,:,i] *= pooled_grads[i]
     heatmap = np.mean(heatmap, axis = -1)
-    self.heatmap = np.uint8(255*np.maximum(heatmap,0)/np.max(heatmap))
+    self.heatmap = np.uint8(255*np.maximum(heatmap,0)/np.max(heatmap))  #keep the logits that are greater than zero 
+      #in the paper, that is to say, only keep the positive influence with the specific class.
+        #then normalize the heatmap and recale its value range from 0 to 255.
 
   
   def origin_cam_visualization(self):

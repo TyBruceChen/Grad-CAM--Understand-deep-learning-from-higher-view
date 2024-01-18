@@ -28,7 +28,7 @@ Let's see the Grad-CAM view of the last layer (layer_idx=2) before classifier fi
 
 In the picture above, there are green and red colors on the Pomeranian's (the dog) face, which means the ResNet34 has successfully put its focus on the Pomeranian's face when the specified category type is the prediction it self.
 
-How about the intermediate layer of the backbone's view during the process of extracting features?
+How about the intermediate layer of the backbone's Grad-CAM view during the process of extracting features?
 
 Let's see the model's architecture first:
 ```

@@ -84,4 +84,4 @@ From the experiment, we can conclude two things:
 2. Comparing visual results under layer_idx=5 and layer_idx=2, we can see that, as the model goes deeper, the features that identify the category become more abstract.
 
 ## Future works:
-Currently, this code only works for activations that shape (B,H,W,C), where H,W should be greater than 1, which means for activation from MobileNet, EffcientNet, etc, it cannot work on their final layers and for ViT models which activations shape (B, sequence + 1 (class_token), 3*patch_size**2), the solution has not be published yet.
+Currently, this code only works for activations that shape (B,H,W,C), where H,W should be greater than 1, which means for activation from MobileNet, EffcientNet, etc, it cannot work on their final layers and for ViT models which activations shape (B, sequence + 1 (class_token), 3*patch_size**2), the solution has been published.

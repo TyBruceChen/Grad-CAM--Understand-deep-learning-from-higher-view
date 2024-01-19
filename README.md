@@ -12,7 +12,7 @@ Example (on ResNet10) (The color from blue -> green -> red represents the focus 
 
 ## How to use it:
 ```
-import grad_cam
+from grad_cam import GradCAM
 
 gradcam = GradCAM(model, img_path, layer_idx, input_size)  #initialize the GradCAM object
 gradcam()  #call the object to form the heatmap array

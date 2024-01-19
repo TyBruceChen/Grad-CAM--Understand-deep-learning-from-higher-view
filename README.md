@@ -19,7 +19,9 @@ gradcam()  #call the object to form the heatmap array
 gradcam.origin_cam_visualization()  #generate the GradCAM (without increasing the size of the heatmap)
 gradcam.imposing_visualization()  #generate the overlaped graph and cam
 ```
-
+For ViT models:
+![code_example](graphs/vit-grad-cam-exmaple.png)
+![vit_result](graphs/vit-16-grad-cam.png)
 
 ## Explanation (on ResNet34):
 

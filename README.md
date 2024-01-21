@@ -13,6 +13,7 @@ Example (on ResNet10) (The color from blue -> green -> red represents the focus 
 ## Catalogue
 * [How to use it](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view?tab=readme-ov-file#how-to-use-it)
 * [Explanation](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#explanation)
+  * [Practice Explanation (on ResNet34)](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#practice-explanation-on-resnet34)
 ## How to use it:
 ```
 from grad_cam import GradCAM
@@ -27,6 +28,16 @@ For ViT models:
 ![vit_result](graphs/vit-16-grad-cam.png)
 
 ## Explanation:
+### Code Explanation:
+According to the explanation in Grad-CAM paper: "Grad-CAM uses the gradient information flowing into the last convolutional layer of the CNN to assign importance values to each neuron for a particular decision of interest."
+Step 1: Gradients Back-propagation and Pooling
+
+![Gradient-CAM-step1](graphs/grad_cam_step1.png)
+
+Step 2: Weighted Combination with Activation Maps
+
+![Gradient-CAM-step1](graphs/grad_cam_step2.png)
+
 ### Practice Explanation (on ResNet34):
 Let's see the Grad-CAM view of the last layer (layer_idx=2) before classifier first:
 ![resnet34-2](graphs/resnet34-2.png)

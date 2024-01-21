@@ -86,10 +86,10 @@ class GradCAM:
     heatmap = activations.detach().numpy()[0] #for tensors where its requires_grad = True, need detach() function to convert to ndarray
     pooled_grads = pooled_grads.numpy()
 
-    #back propagate
+    #combination of gradients and activations
     for  i in range(d_act.shape[-1]):
       heatmap[:,:,i] *= pooled_grads[i]
-    heatmap = np.mean(heatmap, axis = -1)
+    heatmap = np.mean(heatmap, axis = -1)  #shrink the high channle numbers to 1
     self.heatmap = np.uint8(255*np.maximum(heatmap,0)/np.max(heatmap))  #keep the logits that are greater than zero
       #in the paper, that is to say, only keep the positive influence with the specific class.
         #then normalize the heatmap and recale its value range from 0 to 255.

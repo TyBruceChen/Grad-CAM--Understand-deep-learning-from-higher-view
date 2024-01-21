@@ -10,6 +10,9 @@ Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 Example (on ResNet10) (The color from blue -> green -> red represents the focus of model on the picture low -> median -> high):
 ![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)
 
+## Catalogue
+* [How to use it](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view?tab=readme-ov-file#how-to-use-it)
+* [Explanation](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#explanation)
 ## How to use it:
 ```
 from grad_cam import GradCAM
@@ -23,8 +26,8 @@ For ViT models:
 ![code_example](graphs/vit-grad-cam-exmaple.png)
 ![vit_result](graphs/vit-16-grad-cam.png)
 
-## Explanation (on ResNet34):
-
+## Explanation:
+### Practice Explanation (on ResNet34):
 Let's see the Grad-CAM view of the last layer (layer_idx=2) before classifier first:
 ![resnet34-2](graphs/resnet34-2.png)
 

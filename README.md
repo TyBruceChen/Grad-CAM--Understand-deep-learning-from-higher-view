@@ -16,6 +16,7 @@ Example (on ResNet10) (The color from blue -> green -> red represents the focus 
 * [Explanation](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#explanation)
   * [Paper Explanation with Code](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#code-explanation)
   * [Practice Explanation (on ResNet34)](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#practice-explanation-on-resnet34)
+* [Future Works](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#future-works)
 ## How to use it:
 ```
 from grad_cam import GradCAM
@@ -31,15 +32,44 @@ For ViT models:
 
 ## Explanation:
 ### Code Explanation:
-According to the explanation in Grad-CAM paper: "Grad-CAM uses the gradient information flowing into the last convolutional layer of the CNN to assign importance values to each neuron for a particular decision of interest." 
+According to the explanation in [Grad-CAM paper](https://arxiv.org/abs/1610.02391): "Grad-CAM uses the gradient information flowing into the last convolutional layer of the CNN to assign importance values to each neuron for a particular decision of interest." 
 
-Step 1: Gradients Back-propagation and Pooling 
+#### Step 1: Gradients Back-propagation and Pooling 
 
 ![Gradient-CAM-step1](graphs/grad_cam_step1.png)
 
-Step 2: Weighted Combination with Activation Maps
+Get the activations at the specific layer and the prediction tensor at the specific category.
+```
+activations = extractor(img)
+prediction_logits = classifier(activations) #the activation is fed into rest layers to get the prediction tensor
+prediction_logits = prediction_logits[:,class_Idx]
+```
+Gradients back-propagation
+```
+prediction_logits.backward(gradient = grad_output)
+d_act = activations.grad
+```
+
+Pooling along height and width of the activation map
+```
+pooled_grads = torch.mean(d_act,dim = (0,1,2))
+```
+
+#### Step 2: Weighted Combination with Activation Maps
 
 ![Gradient-CAM-step1](graphs/grad_cam_step2.png)
+
+Combination of gradients and activations
+```
+for  i in range(d_act.shape[-1]):
+      heatmap[:,:,i] *= pooled_grads[i]
+heatmap = np.mean(heatmap, axis = -1) #shrink the channel number to 1
+```
+
+ReLU realization: keep the positive neurons the effect the final decision
+```
+np.maximum(heatmap,0)
+```
 
 ### Practice Explanation (on ResNet34):
 Let's see the Grad-CAM view of the last layer (layer_idx=2) before classifier first:

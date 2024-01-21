@@ -66,7 +66,7 @@ for  i in range(d_act.shape[-1]):
 heatmap = np.mean(heatmap, axis = -1) #shrink the channel number to 1
 ```
 
-ReLU realization: keep the positive neurons the effect the final decision
+ReLU realization: keep the positive neurons that effect the final decision
 ```
 np.maximum(heatmap,0)
 ```

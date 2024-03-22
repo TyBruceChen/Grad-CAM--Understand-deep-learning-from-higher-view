@@ -41,7 +41,8 @@ According to the explanation in [Grad-CAM paper](https://arxiv.org/abs/1610.0239
 Get the activations at the specific layer and the prediction tensor at the specific category.
 ```
 activations = extractor(img)
-prediction_logits = classifier(activations) #the activation is fed into rest layers to get the prediction tensor
+prediction_logits = classifier(activations)
+#the activation is fed into rest layers (classifier) to get the prediction tensor
 prediction_logits = prediction_logits[:,class_Idx]
 ```
 Gradients back-propagation

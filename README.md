@@ -8,7 +8,9 @@ The example code is in ```grad_cam_code/test.py```.
 * [Explanation](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#explanation)
   * [Paper Explanation with Code](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#code-explanation)
   * [Practice Explanation (on ResNet34)](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#practice-explanation-on-resnet34)
+* [Application](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/edit/main/README.md#application)
 * [Future Works](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#future-works)
+* [Debuggin Guidance](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/edit/main/README.md#debugging-guidance)
 
 This repository realizes Grad-CAM on Pytorch based models (pretrained models are from timm). To test the visualized results, I use ReseNet34 and ResNet10 models.
 
@@ -25,7 +27,7 @@ from grad_cam import GradCAM
 gradcam = GradCAM(model, img_path, layer_idx, input_size)  #initialize the GradCAM object
 gradcam()  #call the object to form the heatmap array
 gradcam.origin_cam_visualization()  #generate the GradCAM (without increasing the size of the heatmap)
-gradcam.imposing_visualization()  #generate the overlaped graph and cam
+gradcam.imposing_visualization()  #generate the overlapped graph and cam
 ```
 For ViT models:
 ![code_example](graphs/vit-grad-cam-exmaple.png)
@@ -39,6 +41,8 @@ According to the explanation in [Grad-CAM paper](https://arxiv.org/abs/1610.0239
 
 ![Gradient-CAM-step1](graphs/grad_cam_step1.png)
 
+where i and j are the height and width of the feature map. These two levels of summation correspond to the pooling step. Index k is one pixel's index from the heatmap after pooling
+
 Get the activations at the specific layer and the prediction tensor at the specific category.
 ```
 activations = extractor(img)
@@ -46,13 +50,13 @@ prediction_logits = classifier(activations)
 #the activation is fed into rest layers (classifier) to get the prediction tensor
 prediction_logits = prediction_logits[:,class_Idx]
 ```
-Gradients back-propagation
+Gradients back-propagation: gradient of classifier logits w.r.t. each (A_{i,j})logit from the feature extractor is calculated respectively, which results an output of the same shape as classifier ```logits[:,sepcified]```. 
 ```
 prediction_logits.backward(gradient = grad_output)
 d_act = activations.grad
 ```
 
-Pooling along height and width of the activation map
+Pooling along height and width of the activation map: Logits are pooled along height and weight. e.x.: (14,14,768) -> (14,14)
 ```
 pooled_grads = torch.mean(d_act,dim = (0,1,2))
 ```
@@ -134,5 +138,20 @@ From the experiment, we can conclude two things:
 1. We can see that the resnet34 at layer1 already has the ability to extract the key feature from the experimented image (the red, green and yellow points plot the outline of the dog). If we concatenate the first half of the model directly with classifier (linear layer) to form a new model and train them with dog images like our tested one, it should have the same predicted category.
 2. Comparing visual results under layer_idx=5 and layer_idx=2, we can see that, as the model goes deeper, the features that identify the category become more abstract.
 
+## Application
+Verify model's prediction, ensure proper blocks for specific dataset ...
+
 ## Future works:
-Currently, this code only works for activations that shape (B,H,W,C), where H,W should be greater than 1, which means for activation from MobileNet, EffcientNet, etc, it cannot work on their final layers and for ViT models which activations shape (B, sequence + 1 (class_token), 3*patch_size**2), the solution has been published.
+```Currently, this code only works for activations that shape (B,H,W,C), where H,W should be greater than 1, which means for activation from MobileNet, EffcientNet, etc, it cannot work on their final layers and for ViT models which activations shape (B, sequence + 1 (class_token), 3*patch_size**2)``` The solution has been published.
+
+## Debugging Guidance:
+If you are not sure the layer number corresponding to the actual 'name' layer you want to truncate and display or meet error while using this code, like: ``` ValueError: too many values to unpack (expected 3) ```, try to use: 
+```
+extractor = nn.Sequential(*list(model.children())[:7])
+extractor
+```
+To show the actual layers with the extractor.
+
+Author review only, debug online colab link: [Visualization Test](https://colab.research.google.com/drive/10XLnnOgjtpFebtSt3_lgWP5mNLwsuOq5#scrollTo=0jAu8Mi3JvHQ)
+
+If you also want to access to this link, please email: ty_bruce.chen@outlook.com

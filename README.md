@@ -1,8 +1,8 @@
 # Grad-CAM--Understand-deep-learning-from-higher-view
 Gradient Class Activation Map: Visualize the model's prediction and can help you understand neural network models better
 
-Thanks to Selvaraju's research: [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391), the code is based on this research.
-
+Thanks to Selvaraju's research: [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391), the code is developed on this research. <br>
+The example code is in ```grad_cam_code/test.py```.
 ## Catalogue
 * [How to use it](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view?tab=readme-ov-file#how-to-use-it)
 * [Explanation](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#explanation)

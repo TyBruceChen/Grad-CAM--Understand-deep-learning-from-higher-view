@@ -8,9 +8,9 @@ The example code is in ```grad_cam_code/test.py```.
 * [Explanation](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#explanation)
   * [Paper Explanation with Code](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#code-explanation)
   * [Practice Explanation (on ResNet34)](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view#practice-explanation-on-resnet34)
-* [Application](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/edit/main/README.md#application)
+* [Application](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#application)
 * [Future Works](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#future-works)
-* [Debuggin Guidance](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/edit/main/README.md#debugging-guidance)
+* [Debuggin Guidance](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view/tree/main#debugging-guidance)
 
 This repository realizes Grad-CAM on Pytorch based models (pretrained models are from timm). To test the visualized results, I use ReseNet34 and ResNet10 models.
 

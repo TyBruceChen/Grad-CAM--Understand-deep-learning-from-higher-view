@@ -150,6 +150,8 @@ If you are not sure the layer number corresponding to the actual 'name' layer yo
 extractor = nn.Sequential(*list(model.children())[:7])
 extractor
 ```
+If the compiler raises with error that there's no specific layer in your loaded model (trained on some pre-trained structures, e.x. in timm), like: ```'VisionTransformer' object has no attribute 'reg_tokens'```, check the version of your package which is used to construct the model and use ```pip install packagename==version```.
+
 To show the actual layers with the extractor.
 
 Author review only, debug online colab link: [Visualization Test](https://colab.research.google.com/drive/10XLnnOgjtpFebtSt3_lgWP5mNLwsuOq5#scrollTo=0jAu8Mi3JvHQ)

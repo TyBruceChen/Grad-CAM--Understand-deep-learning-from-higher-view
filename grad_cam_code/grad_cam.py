@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import matplotlib.cm as cm
 import math
 
-
 class GradCAM:
   def __init__(self,model,
                img_path:str,
@@ -41,7 +40,7 @@ class GradCAM:
     classifier = nn.Sequential(*list(model.children())[self.layer_idx:])
     #print(extractor)
 
-    img = Image.open(img_path).resize(self.input_shape)
+    img = Image.open(img_path).convert('RGB').resize(self.input_shape)
     transform = transforms.Compose([transforms.ToTensor()])
     img = transform(img)
     img = torch.unsqueeze(img, 0) #preprocess the image to tensor: (1,C,H,W)
@@ -59,7 +58,7 @@ class GradCAM:
 
     prediction_logits = classifier(activations) #the activation is fed into rest layers to get the prediction tensor
     print(f'Prediction_logits Shape:{prediction_logits.shape}')
-    print(class_Idx)
+    print(f'The Grad-CAM will be plotted based on model prediction result: {class_Idx}')
 
     if self.model_type == 'Normal':
       prediction_logits = prediction_logits[:,class_Idx]  #only use the specific class to back propagate
@@ -81,27 +80,37 @@ class GradCAM:
       d_act = self.output_decompose_vit_grad_cam(d_act)
       activations = self.output_decompose_vit_grad_cam(activations[:,:,:])
 
+    print(f'gradient shape (predictioin logti(s) w.r.t. feature logits: ){d_act.shape}')
     pooled_grads = torch.mean(d_act,dim = (0,1,2))  #according to the paper, the pooling happens all axis except the channel dim
 
     heatmap = activations.detach().numpy()[0] #for tensors where its requires_grad = True, need detach() function to convert to ndarray
     pooled_grads = pooled_grads.numpy()
 
-    #combination of gradients and activations
+    #back propagate
     for  i in range(d_act.shape[-1]):
       heatmap[:,:,i] *= pooled_grads[i]
-    heatmap = np.mean(heatmap, axis = -1)  #shrink the high channle numbers to 1
-    self.heatmap = np.uint8(255*np.maximum(heatmap,0)/np.max(heatmap))  #keep the logits that are greater than zero
+    print(f'level.1 pooling on heatmap: {heatmap.shape}')
+    heatmap = np.mean(heatmap, axis = -1)
+    print(f'level.2 pooling on heatmap: {heatmap.shape}')
+
+    threshold = heatmap.max()/8
+
+    self.heatmap = np.uint8(255*np.maximum(heatmap,threshold)/np.max(heatmap))  #keep the logits that are greater than zero
       #in the paper, that is to say, only keep the positive influence with the specific class.
         #then normalize the heatmap and recale its value range from 0 to 255.
 
 
   def origin_cam_visualization(self):
+    plt.rcParams.update({'font.size': 18})
     plt.matshow(self.heatmap)
-    plt.show
+    plt.show()
 
 
   def imposing_visualization(self):
-    alpha = 0.6 #how much CAM will overlap on original image
+    alpha = 1.4 #how much CAM will overlap on original image
+    plt.figure(figsize = (30,10))
+    plt.rcParams.update({'font.size': 24})
+
     jet = cm.get_cmap('jet')
     jet_colors = jet(np.arange(256))[:,:3]
     jet_colors = (jet_colors*256).astype(np.uint8)  #generate a color (RGB) image which has small H and W
@@ -110,13 +119,16 @@ class GradCAM:
     jet_heatmap = (jet_colors[self.heatmap] * alpha).astype(np.uint8)
     #print(jet_heatmap.shape)
     jet_heatmap = Image.fromarray(jet_heatmap).resize(self.input_shape)
-    img = Image.open(self.img_path).resize(self.input_shape)
+    img = Image.open(self.img_path).convert('RGB').resize(self.input_shape)
 
     jet_heatmap = np.asarray(jet_heatmap)
+
     img_cam = np.asarray(img) + np.asarray(jet_heatmap)
-    plt.subplot(1,2,1)
-    plt.imshow(img_cam/255) #print the overlapped image (origin + cam)
-    plt.subplot(1,2,2)
+    plt.subplot(1,3,1)
+    plt.imshow(img)
+    plt.subplot(1,3,2)
+    plt.imshow(img_cam) #print the overlapped image (origin + cam)
+    plt.subplot(1,3,3)
     plt.imshow(jet_heatmap/255) #print the cam
 
 

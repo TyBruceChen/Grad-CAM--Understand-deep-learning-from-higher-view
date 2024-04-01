@@ -93,7 +93,7 @@ class GradCAM:
     heatmap = np.mean(heatmap, axis = -1)
     print(f'level.2 pooling on heatmap: {heatmap.shape}')
 
-    threshold = heatmap.max()/8
+    threshold = heatmap.max()/8 #the threshold is 'enhanced ReLU'
 
     self.heatmap = np.uint8(255*np.maximum(heatmap,threshold)/np.max(heatmap))  #keep the logits that are greater than zero
       #in the paper, that is to say, only keep the positive influence with the specific class.

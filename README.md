@@ -1,7 +1,8 @@
 # Grad-CAM--Understand-deep-learning-from-higher-view
 Gradient Class Activation Map: Visualize the model's prediction and can help you understand neural network models better
 
-Thanks to Selvaraju's research: [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391), the code is developed on this research. <br>
+Thanks to Selvaraju's research: [Grad-CAM: Visual Explanations from Deep Networks via Gradient-based Localization](https://arxiv.org/abs/1610.02391). This code reproduces and develops this research. <be>
+
 The example code is in ```grad_cam_code/test.py```.
 ## Catalogue
 * [How to use it](https://github.com/TyBruceChen/Grad-CAM--Understand-deep-learning-from-higher-view?tab=readme-ov-file#how-to-use-it)
@@ -163,3 +164,21 @@ To show the actual layers with the extractor.
 Author review only, debug online colab link: [Visualization Test](https://colab.research.google.com/drive/10XLnnOgjtpFebtSt3_lgWP5mNLwsuOq5#scrollTo=0jAu8Mi3JvHQ)
 
 If you also want to access to this link, please email: ty_bruce.chen@outlook.com
+
+<br><br>
+**Citation (origin author):**
+```
+@article{Selvaraju_2019,
+   title={Grad-CAM: Visual Explanations from Deep Networks via Gradient-Based Localization},
+   volume={128},
+   ISSN={1573-1405},
+   url={http://dx.doi.org/10.1007/s11263-019-01228-7},
+   DOI={10.1007/s11263-019-01228-7},
+   number={2},
+   journal={International Journal of Computer Vision},
+   publisher={Springer Science and Business Media LLC},
+   author={Selvaraju, Ramprasaath R. and Cogswell, Michael and Das, Abhishek and Vedantam, Ramakrishna and Parikh, Devi and Batra, Dhruv},
+   year={2019},
+   month=oct, pages={336–359} }
+
+```

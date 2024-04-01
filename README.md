@@ -166,7 +166,7 @@ Author review only, debug online colab link: [Visualization Test](https://colab.
 If you also want to access to this link, please email: ty_bruce.chen@outlook.com
 
 <br><br>
-**Citation (origin author):**
+**Citation (origin paper author):**
 ```
 @article{Selvaraju_2019,
    title={Grad-CAM: Visual Explanations from Deep Networks via Gradient-Based Localization},

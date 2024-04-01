@@ -16,6 +16,12 @@ This repository realizes Grad-CAM on Pytorch based models (pretrained models are
 
 Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 
+**Newly updated features:**
+1. Now this Grad-CAM visualization code can process 1-d features (just convert gray image to RGB image)
+2. After substituting the ReLU (which threshold is 0) with a adaptable threshold, the overlapped heatmap can have a more *'リアル' (real) image*, as shown below (this image is used in my [COVID-19 prediction research](https://github.com/TyBruceChen/Research-A-Fined-Tuned-ViT-for-COVID-19-Image-Auxiliary-Diagnosing)):
+
+![Chest Image](graphs/chest-grad-cam.png)
+
 Example (on ResNet10) (The color from blue -> green -> red represents the focus of model on the picture low -> median -> high):
 
 ![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)

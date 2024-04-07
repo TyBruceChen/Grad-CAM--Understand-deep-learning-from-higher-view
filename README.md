@@ -23,7 +23,7 @@ Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 
 ![Chest Image](graphs/chest-grad-cam.png)
 
-3. The edges of the heatmap and colormap are adjusted to be more smooth:
+3. The edges of the heatmap and colormap are adjusted to be more smooth. And UI has been beautified (as well as adding the save option):
 ![exampl1](https://github.com/TyBruceChen/Grad-CAM-pytorch---Understand-deep-learning-from-higher-view/blob/4ed298180823472f1410fcabb45d0da8e97c041e/graphs/example_v2_2_pomeranian.png)
 
 "Hounds of Hell/地獄のいぬ" 

@@ -23,7 +23,7 @@ Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 
 ![Chest Image](graphs/chest-grad-cam.png)
 
-Example (on ResNet10) (The color from blue -> green -> red represents the focus of model on the picture low -> median -> high):
+Example (on ResNet10) (The color from **blue -> green -> red** represents the focus of model on the picture **low -> median -> high**):
 
 ![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)
 

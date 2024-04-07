@@ -23,7 +23,7 @@ Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 
 ![Chest Image](graphs/chest-grad-cam.png)
 
-Example (on ResNet10) ([The color channel](https://github.com/TyBruceChen/Grad-CAM-pytorch---Understand-deep-learning-from-higher-view/blob/3ea3d323b4bcba52311bdb95b1e60e869be0a3a2/color%20value%20explanation.txt) from **blue -> green -> red** represents the focus of model on the picture from **low -> median -> high**):
+Example (on ResNet10) ([The color channel](https://github.com/TyBruceChen/Grad-CAM-pytorch---Understand-deep-learning-from-higher-view/blob/a344b1b4c94112a30bf91d758030349ce45c424c/color%20value%20explanation.md) from **blue -> green -> red** represents the focus of model on the picture from **low -> median -> high**):
 
 ![Grad-CAM-with-resnet10](graphs/resnet10-targe_layer-2.png)
 

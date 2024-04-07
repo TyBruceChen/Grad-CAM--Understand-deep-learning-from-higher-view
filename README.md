@@ -21,6 +21,12 @@ Required Libraries: Pytorch, matplotlib, torchvision, PIL, numpy
 1. Now this Grad-CAM visualization code can process 1-d features (just convert gray image to RGB image)
 2. After substituting the ReLU (which threshold is 0) with a adaptable threshold, the overlapped heatmap can have a more *'リアル' (real) image*, as shown below (this image is used in my [COVID-19 prediction research](https://github.com/TyBruceChen/Research-A-Fined-Tuned-ViT-for-COVID-19-Image-Auxiliary-Diagnosing)):
 
+3. The edges of the heatmap and colormap are adjusted to be more smooth:
+![exampl1](https://github.com/TyBruceChen/Grad-CAM-pytorch---Understand-deep-learning-from-higher-view/blob/4ed298180823472f1410fcabb45d0da8e97c041e/graphs/example_v2_2_pomeranian.png)
+
+"Hounds of Hell/地獄のいぬ" 
+![example2](https://github.com/TyBruceChen/Grad-CAM-pytorch---Understand-deep-learning-from-higher-view/blob/4ed298180823472f1410fcabb45d0da8e97c041e/graphs/example_v2_2_pug_dog.png)
+
 ![Chest Image](graphs/chest-grad-cam.png)
 
 Example (on ResNet10) ([The color channel](https://github.com/TyBruceChen/Grad-CAM-pytorch---Understand-deep-learning-from-higher-view/blob/a344b1b4c94112a30bf91d758030349ce45c424c/color%20value%20explanation.md) from **blue -> green -> red** represents the focus of model on the picture from **low -> median -> high**):

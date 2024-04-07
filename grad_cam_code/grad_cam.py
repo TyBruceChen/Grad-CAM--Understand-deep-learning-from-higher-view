@@ -90,47 +90,89 @@ class GradCAM:
     for  i in range(d_act.shape[-1]):
       heatmap[:,:,i] *= pooled_grads[i]
     print(f'level.1 pooling on heatmap: {heatmap.shape}')
-    heatmap = np.mean(heatmap, axis = -1)
+    heatmap = np.mean(heatmap, axis = -1) #here the heatmap shapes as (H,W,1)
     print(f'level.2 pooling on heatmap: {heatmap.shape}')
 
-    threshold = heatmap.max()/8 #the threshold is 'enhanced ReLU'
-
+    print(f'Maximum pixel value of heatmap is {heatmap.max()}')
+    threshold = heatmap.max()/8
+    #threshold = 0
     self.heatmap = np.uint8(255*np.maximum(heatmap,threshold)/np.max(heatmap))  #keep the logits that are greater than zero
       #in the paper, that is to say, only keep the positive influence with the specific class.
         #then normalize the heatmap and recale its value range from 0 to 255.
 
 
-  def origin_cam_visualization(self):
-    plt.rcParams.update({'font.size': 18})
+  def origin_cam_visualization(self,save_path = None):
+    #display the orignal size heatmap (H,W,1)
+    plt.rcParams.update({'font.size': 14})
     plt.matshow(self.heatmap)
+    plt.title('Original generated heatmap') 
     plt.show()
+    if save_path != None:
+      plt.savefig(save_path)
 
 
-  def imposing_visualization(self):
-    alpha = 1.4 #how much CAM will overlap on original image
-    plt.figure(figsize = (30,10))
-    plt.rcParams.update({'font.size': 24})
+  def imposing_visualization(self,save_path = None):
+    alpha = 0.8 #how much CAM will overlap on original image
+    plt.figure(figsize = (20,20))
+    plt.rcParams.update({'font.size': 18})
 
-    jet = cm.get_cmap('jet')
+    jet = cm.get_cmap('jet')  #create the color map object
     jet_colors = jet(np.arange(256))[:,:3]
+    print(f'jet_color shape: {jet_colors.shape}')
     jet_colors = (jet_colors*256).astype(np.uint8)  #generate a color (RGB) image which has small H and W
                                                       # and maps the intensity to color from red to blue
 
-    jet_heatmap = (jet_colors[self.heatmap] * alpha).astype(np.uint8)
+    #jet_heatmap = (jet_colors[self.heatmap] * alpha).astype(np.uint8)
     #print(jet_heatmap.shape)
-    jet_heatmap = Image.fromarray(jet_heatmap).resize(self.input_shape)
+    #jet_heatmap = Image.fromarray(jet_heatmap).resize(self.input_shape)
+
+    self.heatmap = Image.fromarray(self.heatmap).resize(self.input_shape)
+    jet_heatmap = (jet_colors[np.uint8(self.heatmap)] * alpha).astype(np.uint8)
+
     img = Image.open(self.img_path).convert('RGB').resize(self.input_shape)
 
     jet_heatmap = np.asarray(jet_heatmap)
 
     img_cam = np.asarray(img) + np.asarray(jet_heatmap)
-    plt.subplot(1,3,1)
-    plt.imshow(img)
-    plt.subplot(1,3,2)
-    plt.imshow(img_cam) #print the overlapped image (origin + cam)
-    plt.subplot(1,3,3)
-    plt.imshow(jet_heatmap/255) #print the cam
 
+    plt.subplot(2,2,1)
+    plt.xticks([])
+    plt.yticks([])
+    plt.imshow(img)
+    plt.title('Original Image')
+
+
+    plt.subplot(2,2,2)
+    plt.xticks([])
+    plt.yticks([])
+    plt.imshow(img_cam) #print the overlapped image (origin + cam)
+    plt.title('Overlapped Colormap Image')
+
+    plt.subplot(2,2,3)
+    plt.xticks([])
+    plt.yticks([])
+    plt.imshow(self.heatmap)
+    plt.title('Heatmap (2-D Magnitude)')
+
+    plt.subplot(2,2,4)
+    plt.xticks([])
+    plt.yticks([])
+    plt.imshow(jet_heatmap/255) #print the cam
+    plt.title('Projected Colormap (3-D)')
+
+    plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=-0.05, hspace=0.1)
+
+    if save_path != None:
+      plt.savefig(save_path,bbox_inches = 'tight', pad_inches = 0.3)
+
+      name = save_path.split('.')[0]
+
+      img.save(name+'-origin'+'.png')
+      Image.fromarray(img_cam).save(name+'-overlapped'+'.png')
+      self.heatmap.save(name+'-heatmap'+'.png')
+      Image.fromarray(jet_heatmap).save(name+'-colormap'+'.png')
+
+      
 
   def output_decompose_vit_grad_cam(self, vit_input):
     #decompose on vit's sequence dimension
